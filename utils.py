@@ -15,10 +15,10 @@ with open('urls/phishing_domains.txt', 'r') as file:
 original_favicons = []
 for favicon_file in glob.glob(os.path.join(domains_fav_path, "*")):
     favicon = Image.open(favicon_file)
-    original_favicons.append(favicon)
+    original_favicons.append((favicon, os.path.basename(favicon_file)))
 
 # Load the phishing favicons
 phishing_favicons = []
 for favicon_file in glob.glob(os.path.join(phishings_fav_path, "*")):
     favicon = Image.open(favicon_file)
-    phishing_favicons.append(favicon)
+    phishing_favicons.append((favicon, os.path.basename(favicon_file)))
