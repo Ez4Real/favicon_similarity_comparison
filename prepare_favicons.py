@@ -4,9 +4,7 @@ from urllib.request import Request, urlopen
 from urllib.parse import urlparse, unquote
 import requests
 import ssl
-import imagehash
 from bs4 import BeautifulSoup
-from skimage.metrics import structural_similarity as ssim
 
 from utils import favicon_domains, phishing_domains, \
     domains_fav_path, phishings_fav_path
@@ -50,14 +48,14 @@ def download_favicons_from_list(domains, download_path):
             
         html_content = urlopen(req, context=context).read()
         soup = BeautifulSoup(html_content, 'html.parser')
-        link_el = soup.find("link", rel=lambda value: value and 'icon' in value)
-            
+        link_el = soup.find("link", rel=lambda value: value and 'icon' in value.lower())
+        
         if link_el:
             link_href = link_el.get('href')
             fav_url = link_href if bool(urlparse(link_href).netloc) else f'{domain}{link_href}'
             print('Fav Url:', fav_url)
             
-            filename = f'{tldextract.extract(fav_url).registered_domain}.{get_icon_extension(fav_url)}'
+            filename = f'{tldextract.extract(domain).registered_domain}.{get_icon_extension(fav_url)}'
             download_favicon(fav_url, os.path.join(download_path, filename))
         else:
             print("!!! favicon link element NOT FOUND\n")

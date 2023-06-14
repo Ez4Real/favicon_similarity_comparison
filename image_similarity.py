@@ -4,7 +4,7 @@ from utils import original_favicons, phishing_favicons
 
 def compare_favicon_similarity(fav1, fav2, similarity_threshold):
     # Resize the images to a consistent size
-    width, height = 100, 100
+    width, height = 32, 32
     img1_resized = fav1.resize((width, height))
     img2_resized = fav2.resize((width, height))
 
